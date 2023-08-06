@@ -50,7 +50,7 @@ jobs:
 
       - name: run test
         run: |
-          osbt run -d ./test
+          python3 ./test/id_spoofing.py
         shell: bash
 
       - name: osbt report
