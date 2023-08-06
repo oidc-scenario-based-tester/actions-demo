@@ -1,0 +1,48 @@
+name: oidc test
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.7"
+      - uses: actions/setup-go@v4
+        with:
+          go-version: '1.18'
+      
+      - name: setup rp
+        run: >
+          CLIENT_ID=web 
+          CLIENT_SECRET=secret 
+          ISSUER=http://localhost:9998/
+          SCOPES="openid profile" 
+          PORT=9999 
+          go run github.com/oidc-scenario-based-tester/actions-demo/oidc/rp &
+      
+      - name: setup op
+        run: |
+          go run github.com/oidc-scenario-based-tester/actions-demo/oidc/op &
+
+      - name: osbt setup
+        uses: oidc-scenario-based-tester/osbt-setup-actions@v0.0.1
+        with:
+          version: '0.0.1'
+
+      - name: install osbtlib
+        run: pip install osbtlib
+
+      - name: run test
+        run: |
+          osbt run -d ./test
+
+      - name: osbt report
+        uses: oidc-scenario-based-tester/osbt-report-actions@v0.0.1
+      
