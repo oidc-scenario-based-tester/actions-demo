@@ -38,6 +38,11 @@ jobs:
         with:
           version: '0.0.1'
 
+      - name: install playwright
+        run: |
+          pip install playwright
+          playwright install
+
       - name: install osbtlib
         run: pip install osbtlib
         shell: bash
