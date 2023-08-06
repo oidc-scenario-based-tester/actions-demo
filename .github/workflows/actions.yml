@@ -26,10 +26,12 @@ jobs:
           SCOPES="openid profile" 
           PORT=9999 
           go run github.com/oidc-scenario-based-tester/actions-demo/oidc/rp &
+        shell: bash
       
       - name: setup op
         run: |
           go run github.com/oidc-scenario-based-tester/actions-demo/oidc/op &
+        shell: bash
 
       - name: osbt setup
         uses: oidc-scenario-based-tester/osbt-setup-actions@v0.0.1
@@ -38,10 +40,12 @@ jobs:
 
       - name: install osbtlib
         run: pip install osbtlib
+        shell: bash
 
       - name: run test
         run: |
           osbt run -d ./test
+        shell: bash
 
       - name: osbt report
         uses: oidc-scenario-based-tester/osbt-report-actions@v0.0.1
