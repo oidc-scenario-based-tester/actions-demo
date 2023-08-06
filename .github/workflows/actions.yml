@@ -38,10 +38,11 @@ jobs:
         with:
           version: '0.0.1'
 
-      - name: install playwright
+      - name: install dependencies
         run: |
           pip install playwright
           playwright install
+          pip install pyjwt
 
       - name: install osbtlib
         run: pip install osbtlib
@@ -49,7 +50,7 @@ jobs:
 
       - name: run test
         run: |
-          python3 ./test/id_spoofing.py
+          osbt run -d ./test
         shell: bash
 
       - name: osbt report
